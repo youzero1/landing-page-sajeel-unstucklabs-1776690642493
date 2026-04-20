@@ -1,9 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { label: 'Features', href: '#features' },
@@ -14,26 +21,33 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? 'bg-[#0a0a0f]/90 backdrop-blur-xl border-b border-white/10 shadow-xl shadow-black/20'
+        : 'bg-transparent'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+          <div className="flex items-center gap-3">
+            <div className="relative w-9 h-9">
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500 to-purple-700 rounded-xl blur-sm opacity-70" />
+              <div className="relative w-9 h-9 bg-gradient-to-br from-violet-500 to-purple-700 rounded-xl flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
             </div>
-            <span className="text-xl font-bold text-gray-900">Nexus</span>
+            <span className="text-xl font-bold text-white tracking-tight">Nexus</span>
           </div>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
+                className="text-sm font-medium text-gray-400 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
               >
                 {link.label}
               </a>
@@ -42,20 +56,23 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">
               Log in
             </a>
             <a
               href="#pricing"
-              className="bg-gradient-to-r from-primary-500 to-purple-600 text-white text-sm font-semibold px-5 py-2 rounded-full hover:opacity-90 transition-opacity shadow-md"
+              className="relative group"
             >
-              Get Started Free
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-purple-600 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-300" />
+              <div className="relative bg-gradient-to-r from-violet-600 to-purple-700 text-white text-sm font-semibold px-5 py-2 rounded-full">
+                Get Started Free
+              </div>
             </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -73,23 +90,23 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <div className="flex flex-col gap-4">
+          <div className="md:hidden py-4 border-t border-white/10 bg-[#0a0a0f]/95 backdrop-blur-xl">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
+                  className="text-sm font-medium text-gray-400 hover:text-white px-4 py-3 rounded-lg hover:bg-white/5 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
-              <div className="flex flex-col gap-3 pt-4 border-t border-gray-100">
-                <a href="#" className="text-sm font-medium text-gray-700 text-center">Log in</a>
+              <div className="flex flex-col gap-3 pt-4 mt-2 border-t border-white/10">
+                <a href="#" className="text-sm font-medium text-gray-400 hover:text-white px-4 py-2 transition-colors">Log in</a>
                 <a
                   href="#pricing"
-                  className="bg-gradient-to-r from-primary-500 to-purple-600 text-white text-sm font-semibold px-5 py-2 rounded-full text-center"
+                  className="bg-gradient-to-r from-violet-600 to-purple-700 text-white text-sm font-semibold px-5 py-3 rounded-full text-center"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Get Started Free

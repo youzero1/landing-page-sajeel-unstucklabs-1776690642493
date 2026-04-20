@@ -46,47 +46,61 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-24 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-32 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-white/[0.02]" />
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-indigo-900/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 text-orange-700 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 glass text-orange-300 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-orange-400 rounded-full" />
             FAQ
           </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-5">
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-white mb-5 tracking-tight">
             Frequently asked questions
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-400">
             Got a question? We&apos;ve got answers. If you can&apos;t find what you&apos;re looking for, reach out to our team.
           </p>
         </div>
 
         {/* FAQ Accordion */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-xl overflow-hidden"
+              className={`glass rounded-2xl overflow-hidden transition-all duration-200 ${
+                openIndex === index ? 'border-violet-500/30' : 'hover:border-white/15'
+              }`}
             >
               <button
-                className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between px-6 py-5 text-left"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
-                <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
-                <svg
-                  className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <span className="font-semibold text-white pr-4 text-sm">{faq.question}</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                  openIndex === index
+                    ? 'bg-violet-600 rotate-180'
+                    : 'bg-white/5 border border-white/10'
+                }`}>
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               </button>
               {openIndex === index && (
-                <div className="px-6 pb-5">
-                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                <div className="px-6 pb-6">
+                  <div className="h-px bg-white/5 mb-5" />
+                  <p className="text-gray-400 leading-relaxed text-sm">{faq.answer}</p>
                 </div>
               )}
             </div>
@@ -95,10 +109,10 @@ export default function FAQ() {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <p className="text-gray-600">
+          <p className="text-gray-500 text-sm">
             Still have questions?{' '}
-            <a href="#" className="text-primary-600 font-semibold hover:text-primary-700 underline">
-              Chat with our team
+            <a href="#" className="text-violet-400 font-semibold hover:text-violet-300 transition-colors">
+              Chat with our team →
             </a>
           </p>
         </div>

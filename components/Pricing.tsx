@@ -22,6 +22,8 @@ export default function Pricing() {
       notIncluded: ['Advanced analytics', 'Priority support', 'Custom domain'],
       cta: 'Start Free Trial',
       highlighted: false,
+      gradient: '',
+      border: 'border-white/10',
     },
     {
       name: 'Pro',
@@ -41,6 +43,8 @@ export default function Pricing() {
       notIncluded: [],
       cta: 'Start Free Trial',
       highlighted: true,
+      gradient: 'from-violet-600 to-purple-700',
+      border: 'border-violet-500/50',
     },
     {
       name: 'Enterprise',
@@ -60,83 +64,105 @@ export default function Pricing() {
       notIncluded: [],
       cta: 'Contact Sales',
       highlighted: false,
+      gradient: '',
+      border: 'border-white/10',
     },
   ];
 
   return (
-    <section id="pricing" className="py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-32 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-white/[0.02]" />
+      <div className="absolute inset-0">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-violet-900/10 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 glass text-indigo-300 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full" />
             Pricing
           </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-5">
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-white mb-5 tracking-tight">
             Simple, transparent pricing
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600 mb-8">
+          <p className="max-w-2xl mx-auto text-lg text-gray-400 mb-10">
             No hidden fees. No surprise charges. Choose the plan that fits your team.
           </p>
 
           {/* Toggle */}
-          <div className="inline-flex items-center gap-4 bg-white border border-gray-200 rounded-full p-1 shadow-sm">
+          <div className="inline-flex items-center glass rounded-full p-1">
             <button
               onClick={() => setIsAnnual(false)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                !isAnnual ? 'bg-gray-900 text-white shadow-md' : 'text-gray-500 hover:text-gray-700'
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                !isAnnual ? 'bg-white text-gray-900 shadow-lg' : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setIsAnnual(true)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
-                isAnnual ? 'bg-gray-900 text-white shadow-md' : 'text-gray-500 hover:text-gray-700'
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
+                isAnnual ? 'bg-white text-gray-900 shadow-lg' : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               Annual
-              <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">Save 25%</span>
+              <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">Save 25%</span>
             </button>
           </div>
         </div>
 
         {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`rounded-2xl p-8 border ${
+              className={`relative rounded-2xl p-8 border ${
                 plan.highlighted
-                  ? 'bg-gradient-to-b from-gray-900 to-gray-800 border-gray-700 shadow-2xl scale-105'
-                  : 'bg-white border-gray-200 shadow-sm'
+                  ? 'bg-gradient-to-b from-violet-600/20 to-purple-900/20 border-violet-500/50 shadow-2xl shadow-violet-900/30'
+                  : 'glass'
+              } ${
+                plan.highlighted ? 'scale-[1.03] z-10' : ''
               }`}
             >
               {plan.highlighted && (
-                <div className="inline-flex items-center gap-1 bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
-                  ⭐ Most Popular
+                <>
+                  {/* Top glow */}
+                  <div className="absolute -top-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent" />
+                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-violet-500/20 to-transparent pointer-events-none" />
+                </>
+              )}
+
+              {plan.highlighted && (
+                <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-xs font-bold px-3 py-1.5 rounded-full mb-5 shadow-lg">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  Most Popular
                 </div>
               )}
 
-              <div className={`text-xl font-bold mb-1 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+              <div className="text-xl font-bold mb-1 text-white">
                 {plan.name}
               </div>
-              <div className={`text-sm mb-6 ${plan.highlighted ? 'text-gray-400' : 'text-gray-500'}`}>
+              <div className="text-sm mb-6 text-gray-400">
                 {plan.description}
               </div>
 
               <div className="flex items-end gap-2 mb-8">
-                <span className={`text-5xl font-extrabold ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                <span className="text-5xl font-extrabold text-white">
                   ${isAnnual ? plan.annualPrice : plan.monthlyPrice}
                 </span>
-                <span className={`text-sm pb-2 ${plan.highlighted ? 'text-gray-400' : 'text-gray-500'}`}>/mo per user</span>
+                <span className="text-sm pb-2 text-gray-500">/mo per user</span>
               </div>
 
               <a
                 href="#"
-                className={`block text-center font-semibold py-3 rounded-full mb-8 transition-all ${
+                className={`block text-center font-semibold py-3 rounded-xl mb-8 transition-all text-sm ${
                   plan.highlighted
-                    ? 'bg-gradient-to-r from-primary-500 to-purple-600 text-white hover:opacity-90 shadow-lg'
-                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:opacity-90 shadow-lg shadow-violet-900/50'
+                    : 'bg-white/10 text-white hover:bg-white/15 border border-white/10'
                 }`}
               >
                 {plan.cta}
@@ -145,17 +171,21 @@ export default function Pricing() {
               <div className="space-y-3">
                 {plan.features.map((feature) => (
                   <div key={feature} className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className={`text-sm ${plan.highlighted ? 'text-gray-300' : 'text-gray-600'}`}>{feature}</span>
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-sm text-gray-300">{feature}</span>
                   </div>
                 ))}
                 {plan.notIncluded.map((feature) => (
-                  <div key={feature} className="flex items-center gap-3 opacity-50">
-                    <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                  <div key={feature} className="flex items-center gap-3 opacity-40">
+                    <div className="w-5 h-5 rounded-full bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </div>
                     <span className="text-sm text-gray-500">{feature}</span>
                   </div>
                 ))}
@@ -165,11 +195,16 @@ export default function Pricing() {
         </div>
 
         {/* Money back guarantee */}
-        <div className="text-center mt-12">
-          <p className="text-gray-600">
-            All plans include a <strong className="text-gray-900">14-day free trial</strong> and a{' '}
-            <strong className="text-gray-900">30-day money-back guarantee</strong>. No questions asked.
-          </p>
+        <div className="text-center mt-14">
+          <div className="inline-flex items-center gap-3 glass px-6 py-3 rounded-2xl">
+            <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <p className="text-sm text-gray-400">
+              All plans include a <strong className="text-white">14-day free trial</strong> and a{' '}
+              <strong className="text-white">30-day money-back guarantee</strong>. No questions asked.
+            </p>
+          </div>
         </div>
       </div>
     </section>
